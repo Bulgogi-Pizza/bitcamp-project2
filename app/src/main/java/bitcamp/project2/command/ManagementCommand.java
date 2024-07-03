@@ -29,7 +29,7 @@ public class ManagementCommand {
                     StorageCommand.manageStorage();
                     break;
                 default:
-                    System.out.println("[System] 올바른 메뉴를 입력하세요.");
+                    Print.printSystem("올바른 메뉴를 입력하세요.");
             }
         }
     }
@@ -54,7 +54,7 @@ public class ManagementCommand {
                     updateTodo();
                     break;
                 default:
-                    System.out.println("[System] 올바른 메뉴를 입력하세요.");
+                    Print.printSystem("올바른 메뉴를 입력하세요.");
             }
         }
     }
@@ -114,8 +114,7 @@ public class ManagementCommand {
         int storageIndex =
             PromptTodo.inputIntWithRange(1, storageSize, "저장소 선택 (" + todo.getStorage() + ")>>")
                 - 1;
-        String storage = Todo.getStorageList().get(storageIndex);
-        todo.setStorage(storage);
+        todo.setStorageIndex(storageIndex);
 
         // priority 입력
         Print.printTitle("우선 순위");

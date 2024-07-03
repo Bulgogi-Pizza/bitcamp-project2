@@ -14,8 +14,18 @@ public class CreateCommand {
     public static void createTodo() {
         Print.printTitle("Todo 생성");
 
+        String todoTitle;
+
         // title 입력
-        String todoTitle = PromptTodo.input("Todo 제목 입력 >>");
+        while (true) {
+            todoTitle = PromptTodo.input("Todo 제목 입력 (최대 20Bytes) >>");
+
+            if (todoTitle.getBytes().length > Todo.MAX_LENGTH_TITLE) {
+                System.out.println("제목이 너무 깁니다.");
+            } else {
+                break;
+            }
+        }
 
         // deadline 입력
         Print.printTitle("기한");
@@ -30,7 +40,6 @@ public class CreateCommand {
             System.out.println(i + 1 + ". " + storageCandidate);
         }
         int storageIndex = PromptTodo.inputIntWithRange(1, storageSize, "저장소 선택 >>") - 1;
-        String storage = Todo.getStorageList().get(storageIndex);
 
         // priority 입력
         Print.printTitle("우선 순위");
@@ -80,7 +89,7 @@ public class CreateCommand {
             }
         }
 
-        Todo todo = new Todo(todoTitle, deadline, storage, priority, repeatSet, tags);
+        Todo todo = new Todo(todoTitle, deadline, storageIndex, priority, repeatSet, tags);
         TodoCommand.todos.add(todo);
     }
 

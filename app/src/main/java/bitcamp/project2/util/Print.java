@@ -22,6 +22,10 @@ public class Print {
         }
     }
 
+    public static void printSystem(String str) {
+        System.out.println(Ansi.RED + "[System] " + str + Ansi.INIT);
+    }
+
     public static Calendar printCalendar(int year, int month) {
         // 현재 연도와 월 가져오기
         String boldAnsi = "\033[1m";
@@ -79,16 +83,18 @@ public class Print {
         printTitleBig();
 
         System.out.println(
-            "No | 완료여부 |    날짜    | 우선 순위 |      제목      |  보관함 |   반복여부   | 태그 ");
+            "No | To do |    날짜    | 우선순위 |        제목        |    보관함    |   반복여부   | 태그 ");
         System.out.println(
             "------------------------------------------------------------------------------------------------------------------");
 
         for (int i = 0; i < todoList.size(); i++) {
             Todo todo = todoList.get(i);
 
-            System.out.printf("%02d |  %s  | %s |     %s    | %s | %s | %s | %s\n", todo.getNo(),
+            System.out.printf("%02d |  %s  | %s |    %s    |%s|%s| %s | %s\n", todo.getNo(),
                 todo.getComplete(), todo.getDeadlineDate(),
-                todo.getPriority().getName(), todo.getTitle(), todo.getStorage(),
+                todo.getPriority().getName(),
+                printFittedString(Todo.MAX_LENGTH_TITLE, todo.getTitle()),
+                printFittedString(Todo.MAX_LENGTH_STORAGE, todo.getStorage()),
                 todo.getRepeat().stringRepeat(),
                 todo.getTagList().toString());
 
@@ -96,7 +102,44 @@ public class Print {
         System.out.println("");
     }
 
+    public static void printMainTodoList(TodoList todoList) {
+        printTitleBig();
+
+        Print.printTitle(" 목표");
+        // print 오늘 && 미완료 목표
+
+        Print.printTitle("미완료 목표");
+        // print after 오늘 && 미완료 목표
+
+        Print.printTitle("완료 목표");
+
+
+    }
+
     public static void printHaveTodoList(TodoList todoList) {
 
+    }
+
+    public static String printFittedString(int length, String str) {
+        int strByteLength = str.getBytes().length;
+        int strLength = str.length();
+
+        int charNum = (3 * strLength - strByteLength) / 2;
+        int korNum = strLength - charNum;
+        int space_length = length - charNum - (2 * korNum);
+        if (space_length % 2 == 1) {
+            ++space_length;
+        }
+        String space = " ";
+        StringBuilder fittedString = new StringBuilder();
+        for (int i = 0; i < space_length / 2; i++) {
+            fittedString.append(space);
+        }
+        fittedString.append(str);
+        for (int i = 0; i < space_length / 2; i++) {
+            fittedString.append(space);
+        }
+
+        return fittedString.toString();
     }
 }

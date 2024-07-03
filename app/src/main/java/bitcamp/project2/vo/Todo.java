@@ -1,13 +1,15 @@
 package bitcamp.project2.vo;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class Todo {
+
+    public static final int MAX_LENGTH_TITLE = 20;
+    public static final int MAX_LENGTH_STORAGE = 14;
 
     static int seqNo;
     static LinkedList<String> storageList = new LinkedList<>();
@@ -17,19 +19,19 @@ public class Todo {
     boolean complete;
     String title;
     Calendar deadline;
-    String storage;
+    int storageIndex;
     Priority priority;
     Repeat repeat;
     LinkedList<String> tags;
 
-    public Todo(String title, Calendar deadline, String storage, Priority priority, Repeat repeat,
+    public Todo(String title, Calendar deadline, int storageIndex, Priority priority, Repeat repeat,
         LinkedList<String> tags) {
         ++seqNo;
 
         this.no = seqNo;
         this.title = title;
         this.deadline = deadline;
-        this.storage = storage;
+        this.storageIndex = storageIndex;
         this.priority = priority;
         this.repeat = repeat;
         this.tags = tags;
@@ -86,12 +88,16 @@ public class Todo {
         this.deadline = deadline;
     }
 
-    public String getStorage() {
-        return storage;
+    public int getStorageIndex() {
+        return storageIndex;
     }
 
-    public void setStorage(String storage) {
-        this.storage = storage;
+    public void setStorageIndex(int storageIndex) {
+        this.storageIndex = storageIndex;
+    }
+
+    public String getStorage() {
+        return storageList.get(storageIndex);
     }
 
     public Priority getPriority() {
@@ -113,7 +119,7 @@ public class Todo {
     public StringBuilder getTagList() {
         StringBuilder tag = new StringBuilder();
         for (int i = 0; i < tags.size(); i++) {
-            tag.append(tags.get(i));
+            tag.append("#" + tags.get(i) + " ");
         }
 
         return tag;
@@ -127,8 +133,8 @@ public class Todo {
         this.tags = tags;
     }
 
-    public static void addStorageList(String... storage) {
-        storageList.addAll(Arrays.asList(storage));
+    public static void addStorageList(String storageName) {
+        storageList.add(storageName);
     }
 
     public static LinkedList<String> getStorageList() {
@@ -148,7 +154,7 @@ public class Todo {
     }
 
     public String getComplete() {
-        return complete ? " 완료 " : "미완료";
+        return complete ? "[V]" : "[ ]";
     }
 
     public void setComplete(boolean complete) {
