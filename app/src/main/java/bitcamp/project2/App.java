@@ -13,10 +13,12 @@ import bitcamp.project2.util.PromptTodo;
 public class App {
 
     static String mainTitle = "Todo List";
-    static String[] mainMenus = {"Todo List", "Todo 생성", "Todo 관리", "Todo 조회"};
+    static String[] mainMenus = {"Todo List", "Todo 생성", "Todo 관리", "Todo 조회", "프로그램 종료"};
 
     public static void main(String[] args) {
         TodoCommand.init();
+
+        mainLoop:
         while (true) {
 
             Print.printHaveTodoList(TodoCommand.todos);
@@ -39,10 +41,14 @@ public class App {
                 case 4:
                     ReadCommand.readTodo();
                     break;
+                case 0:
+                    break mainLoop;
                 default:
-                    System.out.println("[System] 올바른 메뉴를 선택해 주세요.");
+                    Print.printSystem("올바른 메뉴를 선택해 주세요.");
             }
         }
+
+        Print.printSystem("프로그램을 종료합니다.");
     }
 
 

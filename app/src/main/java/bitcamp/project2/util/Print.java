@@ -17,13 +17,15 @@ public class Print {
     }
 
     public static void printMenus(String[] menus) {
-        for (int i = 0; i < menus.length; i++) {
+        for (int i = 0; i < menus.length - 1; i++) {
             System.out.println(i + 1 + ". " + menus[i]);
         }
+        System.out.println(
+            Ansi.RED.getName() + "0. " + menus[menus.length - 1] + Ansi.INIT.getName());
     }
 
     public static void printSystem(String str) {
-        System.out.println(Ansi.RED + "[System] " + str + Ansi.INIT);
+        System.out.println(Ansi.RED.getName() + "[System] " + str + Ansi.INIT.getName());
     }
 
     public static Calendar printCalendar(int year, int month) {
@@ -90,7 +92,7 @@ public class Print {
         for (int i = 0; i < todoList.size(); i++) {
             Todo todo = todoList.get(i);
 
-            System.out.printf("%02d |  %s  | %s |    %s    |%s|%s| %s | %s\n", todo.getNo(),
+            System.out.printf("%02d |  %s  | %s |    %s    |%s|%s|   %s  | %s\n", todo.getNo(),
                 todo.getComplete(), todo.getDeadlineDate(),
                 todo.getPriority().getName(),
                 printFittedString(Todo.MAX_LENGTH_TITLE, todo.getTitle()),
@@ -127,8 +129,9 @@ public class Print {
         int charNum = (3 * strLength - strByteLength) / 2;
         int korNum = strLength - charNum;
         int space_length = length - charNum - (2 * korNum);
+        int space_length2 = space_length;
         if (space_length % 2 == 1) {
-            ++space_length;
+            ++space_length2;
         }
         String space = " ";
         StringBuilder fittedString = new StringBuilder();

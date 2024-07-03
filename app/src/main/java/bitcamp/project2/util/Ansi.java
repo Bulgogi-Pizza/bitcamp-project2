@@ -11,4 +11,8 @@ public enum Ansi {
     Ansi(String ansi) {
         this.ansi = ansi;
     }
+
+    public String getName() {
+        return ansi;
+    }
 }

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 public class ManagementCommand {
 
     public static void management() {
-        String[] manageMenus = {"Todo 관리", "보관함 관리", ""};
+        String[] manageMenus = {"Todo 관리", "보관함 관리", "이전"};
 
         while (true) {
             Print.printTitle("관리");
@@ -28,6 +28,8 @@ public class ManagementCommand {
                 case 2:
                     StorageCommand.manageStorage();
                     break;
+                case 0:
+                    return;
                 default:
                     Print.printSystem("올바른 메뉴를 입력하세요.");
             }
@@ -35,7 +37,7 @@ public class ManagementCommand {
     }
 
     public static void manageTodoList() {
-        String[] manageTodoMenus = {"완료", "삭제", "수정"};
+        String[] manageTodoMenus = {"완료", "삭제", "수정", "이전"};
 
         while (true) {
             Print.printTitle("Todo 관리");
@@ -53,6 +55,8 @@ public class ManagementCommand {
                 case 3:
                     updateTodo();
                     break;
+                case 0:
+                    return;
                 default:
                     Print.printSystem("올바른 메뉴를 입력하세요.");
             }

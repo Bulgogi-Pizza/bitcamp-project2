@@ -8,7 +8,7 @@ import bitcamp.project2.vo.Todo;
 public class StorageCommand {
 
     public static void manageStorage() {
-        String[] manageStorageMenus = {"보관함 생성", "보관함 조회", "보관함 수정", "보관함 삭제"};
+        String[] manageStorageMenus = {"보관함 생성", "보관함 조회", "보관함 수정", "보관함 삭제", "이전"};
 
         while (true) {
             Print.printTitle("보관함 관리");
@@ -29,6 +29,8 @@ public class StorageCommand {
                 case 4:
                     deleteStorage();
                     break;
+                case 0:
+                    return;
                 default:
                     System.out.println("[System] 올바른 메뉴를 입력하세요.");
             }
