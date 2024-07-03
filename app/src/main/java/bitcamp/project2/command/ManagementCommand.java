@@ -7,6 +7,7 @@ import bitcamp.project2.vo.Priority;
 import bitcamp.project2.vo.Repeat;
 import bitcamp.project2.vo.Term;
 import bitcamp.project2.vo.Todo;
+import bitcamp.project2.vo.TodoList;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -37,7 +38,7 @@ public class ManagementCommand {
     }
 
     public static void manageTodoList() {
-        String[] manageTodoMenus = {"완료", "삭제", "수정", "이전"};
+        String[] manageTodoMenus = {"정렬", "삭제", "수정", "이전"};
 
         while (true) {
             Print.printTitle("Todo 관리");
@@ -47,13 +48,60 @@ public class ManagementCommand {
 
             switch (menuNo) {
                 case 1:
-                    completeTodo();
+                    changeSortMode();
                     break;
                 case 2:
                     deleteTodo();
                     break;
                 case 3:
                     updateTodo();
+                    break;
+                case 0:
+                    return;
+                default:
+                    Print.printSystem("올바른 메뉴를 입력하세요.");
+            }
+        }
+    }
+
+    public static void completeTodoWithList() {
+        while (true) {
+            Print.printTodoList(TodoCommand.todos);
+
+            Print.printTitle("완료 상태 변경");
+
+            int todoSize = TodoCommand.todos.size();
+            int todoNo = PromptTodo.inputIntWithRange(0, todoSize, "완료 상태 변경 No [0 = 이전] >>");
+
+            System.out.println("");
+
+            if (todoNo == 0) {
+                return;
+            }
+
+            Todo todo = TodoCommand.todos.getByNo(todoNo);
+            int todoIndex = TodoCommand.todos.ofIndex(todo);
+            boolean complete = todo.isComplete();
+            TodoCommand.todos.get(todoIndex).setComplete(!complete);
+        }
+    }
+
+    public static void changeSortMode() {
+
+        String[] manageTodoMenus = {"날짜 순", "우선순위 순"};
+
+        while (true) {
+            Print.printTitle("정렬 모드");
+            Print.printMenus(manageTodoMenus);
+
+            int menuNo = PromptTodo.inputInt("정렬 모드 변경 [0 = 이전] >>");
+
+            switch (menuNo) {
+                case 1:
+                    TodoList.sortMethod = "Date";
+                    break;
+                case 2:
+                    TodoList.sortMethod = "Priority";
                     break;
                 case 0:
                     return;
@@ -86,6 +134,8 @@ public class ManagementCommand {
         Todo todo = TodoCommand.todos.getByNo(todoNo);
         int todoIndex = TodoCommand.todos.ofIndex(todo);
         TodoCommand.todos.remove(todoIndex);
+
+        TodoCommand.sort();
     }
 
     public static void updateTodo() {
@@ -124,7 +174,7 @@ public class ManagementCommand {
         Print.printTitle("우선 순위");
         int prioritySize = Priority.values().length;
         for (int i = 0; i < Priority.values().length; i++) {
-            System.out.println(i + 1 + ". " + Priority.values()[i].getName());
+            System.out.println(i + 1 + ". " + Priority.values()[i].getGrade());
         }
         int priorityIndex =
             PromptTodo.inputIntWithRange(1, prioritySize, "우선순위 선택 (" + todo.getPriority() + ")>>")
@@ -180,6 +230,8 @@ public class ManagementCommand {
         todo.setTags(tags);
 
         TodoCommand.todos.set(todoIndex, todo);
+
+        TodoCommand.sort();
     }
 
 

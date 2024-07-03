@@ -13,7 +13,6 @@ public class Todo {
 
     static int seqNo;
     static LinkedList<String> storageList = new LinkedList<>();
-    static LinkedList<String> tagList = new LinkedList<>();
 
     int no;
     boolean complete;
@@ -116,7 +115,7 @@ public class Todo {
         this.repeat = repeat;
     }
 
-    public StringBuilder getTagList() {
+    public StringBuilder getTagStringBuilder() {
         StringBuilder tag = new StringBuilder();
         for (int i = 0; i < tags.size(); i++) {
             tag.append("#" + tags.get(i) + " ");
@@ -143,10 +142,6 @@ public class Todo {
 
     public static void setStorageList(LinkedList<String> storageList) {
         Todo.storageList = storageList;
-    }
-
-    public static void setTagList(LinkedList<String> tagList) {
-        Todo.tagList = tagList;
     }
 
     public boolean isComplete() {

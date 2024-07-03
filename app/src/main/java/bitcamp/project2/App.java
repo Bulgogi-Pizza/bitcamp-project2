@@ -9,6 +9,12 @@ import bitcamp.project2.command.ReadCommand;
 import bitcamp.project2.command.TodoCommand;
 import bitcamp.project2.util.Print;
 import bitcamp.project2.util.PromptTodo;
+import bitcamp.project2.vo.Priority;
+import bitcamp.project2.vo.Repeat;
+import bitcamp.project2.vo.Term;
+import bitcamp.project2.vo.Todo;
+import java.util.Calendar;
+import java.util.LinkedList;
 
 public class App {
 
@@ -26,11 +32,11 @@ public class App {
             Print.printMenus(mainMenus);
 
             int menuNo = PromptTodo.inputInt("메인 >>");
+            System.out.println("");
 
             switch (menuNo) {
                 case 1:
-                    // 미완성 메서드
-                    Print.printTodoList(TodoCommand.todos);
+                    ManagementCommand.completeTodoWithList();
                     break;
                 case 2:
                     CreateCommand.createTodo();
@@ -43,12 +49,71 @@ public class App {
                     break;
                 case 0:
                     break mainLoop;
+                case 8888:
+                    secretCommand();
+                    break;
                 default:
                     Print.printSystem("올바른 메뉴를 선택해 주세요.");
             }
         }
 
         Print.printSystem("프로그램을 종료합니다.");
+    }
+
+    public static void secretCommand() {
+        String[] todoTitles = {"미용실 예약", "술약", "밥약", "공과금 내기", "강사님께 질문"};
+
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        Calendar calendar3 = Calendar.getInstance();
+        Calendar calendar4 = Calendar.getInstance();
+        Calendar calendar5 = Calendar.getInstance();
+
+        calendar1.set(2024, 7, 4);
+        calendar2.set(2024, 7, 5);
+        calendar3.set(2024, 7, 10);
+        calendar4.set(2024, 7, 1);
+        calendar5.set(2024, 7, 3);
+
+        Calendar[] deadlines = {calendar1, calendar2, calendar3, calendar4, calendar5};
+
+        Priority[] priorities = {Priority.HIGH, Priority.HIGH, Priority.MIDDLE, Priority.HIGH,
+            Priority.HIGH};
+
+        boolean[] repeats = {false, false, false, true, false};
+        Term[] terms = {Term.DAY, Term.DAY, Term.DAY, Term.MONTH, Term.DAY};
+
+        Repeat repeat1 = new Repeat(repeats[0], terms[0]);
+        Repeat repeat2 = new Repeat(repeats[1], terms[1]);
+        Repeat repeat3 = new Repeat(repeats[2], terms[2]);
+        Repeat repeat4 = new Repeat(repeats[3], terms[3]);
+        Repeat repeat5 = new Repeat(repeats[4], terms[4]);
+
+        LinkedList<String> tags1 = new LinkedList<>();
+        LinkedList<String> tags2 = new LinkedList<>();
+        LinkedList<String> tags3 = new LinkedList<>();
+        LinkedList<String> tags4 = new LinkedList<>();
+        LinkedList<String> tags5 = new LinkedList<>();
+
+        tags1.add("미용");
+        tags2.add("술");
+        tags3.add("술");
+        tags3.add("밥");
+        tags4.add("전기");
+        tags5.add("서울");
+        tags5.add("학업");
+
+        Todo todo1 = new Todo(todoTitles[0], deadlines[0], 0, priorities[0], repeat1, tags1);
+        Todo todo2 = new Todo(todoTitles[1], deadlines[1], 0, priorities[1], repeat2, tags2);
+        Todo todo3 = new Todo(todoTitles[2], deadlines[2], 0, priorities[2], repeat3, tags3);
+        Todo todo4 = new Todo(todoTitles[3], deadlines[3], 0, priorities[3], repeat4, tags4);
+        Todo todo5 = new Todo(todoTitles[4], deadlines[4], 0, priorities[4], repeat5, tags5);
+
+        TodoCommand.todos.add(todo1);
+        TodoCommand.todos.add(todo2);
+        TodoCommand.todos.add(todo3);
+        TodoCommand.todos.add(todo4);
+        TodoCommand.todos.add(todo5);
     }
 
 

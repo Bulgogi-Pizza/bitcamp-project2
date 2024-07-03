@@ -45,7 +45,7 @@ public class CreateCommand {
         Print.printTitle("우선 순위");
         int prioritySize = Priority.values().length;
         for (int i = 0; i < Priority.values().length; i++) {
-            System.out.println(i + 1 + ". " + Priority.values()[i].getName());
+            System.out.println(i + 1 + ". " + Priority.values()[i].getGrade());
         }
         int priorityIndex = PromptTodo.inputIntWithRange(1, prioritySize, "우선순위 선택 >>") - 1;
         Priority priority = Priority.values()[priorityIndex];
@@ -91,6 +91,8 @@ public class CreateCommand {
 
         Todo todo = new Todo(todoTitle, deadline, storageIndex, priority, repeatSet, tags);
         TodoCommand.todos.add(todo);
+
+        TodoCommand.sort();
     }
 
 }

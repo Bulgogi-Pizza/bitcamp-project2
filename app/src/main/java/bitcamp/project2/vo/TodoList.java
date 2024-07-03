@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class TodoList extends LinkedList<Todo> {
 
+    public static String sortMethod = "Date";
+
     public Todo getByNo(int no) {
         for (Todo todo : this) {
             if (todo.getNo() == no) {

@@ -81,8 +81,92 @@ public class Print {
         return calendar;
     }
 
+    public static void printTodoListByComplete(TodoList todoList) {
+        TodoList todoListDone = new TodoList();
+        TodoList todoListNotDone = new TodoList();
+
+        Calendar today = Calendar.getInstance();
+
+        for (int i = 0; i < todoList.size(); i++) {
+            Todo todo = todoList.get(i);
+
+            if (todo.isComplete()) {
+                todoListDone.add(todo);
+            } else {
+                todoListNotDone.add(todo);
+            }
+        }
+
+        System.out.println("----------<< 완료한 일 >>----------");
+        printTodoList(todoListDone);
+
+        System.out.println("----------<< 미완료한 일 >>----------");
+        printTodoList(todoListNotDone);
+
+        System.out.println("");
+    }
+
+    public static void printTodoListByPriority(TodoList todoList) {
+        TodoList todoListHigh = new TodoList();
+        TodoList todoListMiddle = new TodoList();
+        TodoList todoListLow = new TodoList();
+
+        for (int i = 0; i < todoList.size(); i++) {
+            Todo todo = todoList.get(i);
+
+            switch (todo.getPriority().getName()) {
+                case 1:
+                    todoListLow.add(todo);
+                    break;
+                case 5:
+                    todoListMiddle.add(todo);
+                    break;
+                case 9:
+                    todoListHigh.add(todo);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        System.out.println("----------<< 우선순위 상 >>----------");
+        printTodoList(todoListHigh);
+
+        System.out.println("----------<< 우선순위 중 >>----------");
+        printTodoList(todoListMiddle);
+
+        System.out.println("----------<< 우선순위 하 >>----------");
+        printTodoList(todoListLow);
+
+        System.out.println("");
+    }
+
+    public static void printTodoListByDate(TodoList todoList) {
+        TodoList todoListBefore = new TodoList();
+        TodoList todoListAfter = new TodoList();
+
+        Calendar today = Calendar.getInstance();
+
+        for (int i = 0; i < todoList.size(); i++) {
+            Todo todo = todoList.get(i);
+
+            if (todo.getDeadline().before(today)) {
+                todoListBefore.add(todo);
+            } else {
+                todoListAfter.add(todo);
+            }
+        }
+
+        System.out.println("----------<< 했어야 할 일 >>----------");
+        printTodoList(todoListBefore);
+
+        System.out.println("----------<< 해야 할 일 >>----------");
+        printTodoList(todoListAfter);
+
+        System.out.println("");
+    }
+
     public static void printTodoList(TodoList todoList) {
-        printTitleBig();
 
         System.out.println(
             "No | To do |    날짜    | 우선순위 |        제목        |    보관함    |   반복여부   | 태그 ");
@@ -94,28 +178,14 @@ public class Print {
 
             System.out.printf("%02d |  %s  | %s |    %s    |%s|%s|   %s  | %s\n", todo.getNo(),
                 todo.getComplete(), todo.getDeadlineDate(),
-                todo.getPriority().getName(),
+                todo.getPriority().getGrade(),
                 printFittedString(Todo.MAX_LENGTH_TITLE, todo.getTitle()),
                 printFittedString(Todo.MAX_LENGTH_STORAGE, todo.getStorage()),
                 todo.getRepeat().stringRepeat(),
-                todo.getTagList().toString());
+                todo.getTagStringBuilder().toString());
 
         }
         System.out.println("");
-    }
-
-    public static void printMainTodoList(TodoList todoList) {
-        printTitleBig();
-
-        Print.printTitle(" 목표");
-        // print 오늘 && 미완료 목표
-
-        Print.printTitle("미완료 목표");
-        // print after 오늘 && 미완료 목표
-
-        Print.printTitle("완료 목표");
-
-
     }
 
     public static void printHaveTodoList(TodoList todoList) {
@@ -139,7 +209,7 @@ public class Print {
             fittedString.append(space);
         }
         fittedString.append(str);
-        for (int i = 0; i < space_length / 2; i++) {
+        for (int i = 0; i < space_length2 / 2; i++) {
             fittedString.append(space);
         }
 
