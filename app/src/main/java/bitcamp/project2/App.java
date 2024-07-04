@@ -15,6 +15,7 @@ import bitcamp.project2.vo.Term;
 import bitcamp.project2.vo.Todo;
 import java.util.Calendar;
 import java.util.LinkedList;
+
 public class App {
 
     static String mainTitle = "Todo List";

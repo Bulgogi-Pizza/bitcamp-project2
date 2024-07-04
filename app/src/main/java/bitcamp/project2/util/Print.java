@@ -2,6 +2,7 @@ package bitcamp.project2.util;
 
 import bitcamp.project2.vo.Todo;
 import bitcamp.project2.vo.TodoList;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -15,23 +16,34 @@ public class Print {
     public static void printTodayTodoList(TodoList todoList) {
         System.out.println("------ [오늘 할 일]------------------------------");
 
-        // 할 일 목록이 비어있는 경우 "없음" 출력
-        if (todoList.isEmpty()) {
-            System.out.println("할 일이 없습니다....");
-        } else {
-            // 할 일 목록을 순회하며 각 항목 출력
-            for (Todo todo : todoList) {
-                System.out.printf("- %s, %s, %s, %s, %s\n",
+        // 오늘 날짜를 기준으로 할 일 목록 필터링
+        boolean hasTodayTodo = false;
+        Calendar today = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String todayStr = sdf.format(today.getTime());
+
+        for (Todo todo : todoList) {
+            String todoDateStr = sdf.format(todo.getDeadline().getTime());
+            if (todayStr.equals(todoDateStr)) {
+                hasTodayTodo = true;
+                System.out.printf("- %s, %s, %s, %s, %s, %s\n",
                         todo.getDeadlineDate(),
                         todo.getPriority().getGrade(),
                         todo.getTitle(),
                         todo.getStorage(),
+                        todo.getRepeat().stringRepeat(),
                         todo.getTagStringBuilder().toString());
             }
         }
 
-        System.out.println("-------------------------------------------------");
+        // 오늘 할 일이 없는 경우 "없음" 출력
+        if (!hasTodayTodo) {
+            System.out.println("없음");
+        }
+
+        System.out.println("------------------------------------------------");
     }
+
 
     public static void printTitleBig() {
 
