@@ -6,6 +6,32 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 public class Print {
+    // ... 기존 코드 ...
+
+    /**
+     * 오늘 할 일 목록을 출력하는 메서드
+     * @param todoList 출력할 할 일 목록
+     */
+    public static void printTodayTodoList(TodoList todoList) {
+        System.out.println("------ [오늘 할 일]------------------------------");
+
+        // 할 일 목록이 비어있는 경우 "없음" 출력
+        if (todoList.isEmpty()) {
+            System.out.println("할 일이 없습니다....");
+        } else {
+            // 할 일 목록을 순회하며 각 항목 출력
+            for (Todo todo : todoList) {
+                System.out.printf("- %s, %s, %s, %s, %s\n",
+                        todo.getDeadlineDate(),
+                        todo.getPriority().getGrade(),
+                        todo.getTitle(),
+                        todo.getStorage(),
+                        todo.getTagStringBuilder().toString());
+            }
+        }
+
+        System.out.println("-------------------------------------------------");
+    }
 
     public static void printTitleBig() {
 

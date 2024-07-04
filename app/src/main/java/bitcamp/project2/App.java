@@ -15,7 +15,6 @@ import bitcamp.project2.vo.Term;
 import bitcamp.project2.vo.Todo;
 import java.util.Calendar;
 import java.util.LinkedList;
-
 public class App {
 
     static String mainTitle = "Todo List";
@@ -27,6 +26,10 @@ public class App {
         mainLoop:
         while (true) {
 
+            // 오늘 할 일 목록 출력
+            Print.printTodayTodoList(TodoCommand.todos);
+
+            // 기존 할 일 목록 및 메뉴 출력
             Print.printHaveTodoList(TodoCommand.todos);
             Print.printTitle(mainTitle);
             Print.printMenus(mainMenus);
@@ -78,7 +81,7 @@ public class App {
         Calendar[] deadlines = {calendar1, calendar2, calendar3, calendar4, calendar5};
 
         Priority[] priorities = {Priority.HIGH, Priority.HIGH, Priority.MIDDLE, Priority.HIGH,
-            Priority.HIGH};
+                Priority.HIGH};
 
         boolean[] repeats = {false, false, false, true, false};
         Term[] terms = {Term.DAY, Term.DAY, Term.DAY, Term.MONTH, Term.DAY};
@@ -115,7 +118,4 @@ public class App {
         TodoCommand.todos.add(todo4);
         TodoCommand.todos.add(todo5);
     }
-
-
 }
-
