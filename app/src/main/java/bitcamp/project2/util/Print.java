@@ -11,10 +11,12 @@ public class Print {
 
     /**
      * 오늘 할 일 목록을 출력하는 메서드
+     *
      * @param todoList 출력할 할 일 목록
      */
     public static void printTodayTodoList(TodoList todoList) {
-        System.out.println("------ [오늘 할 일]------------------------------");
+        System.out.println(
+            "----------------- [오늘 할 일]-----------------------------------------------");
 
         // 오늘 날짜를 기준으로 할 일 목록 필터링
         boolean hasTodayTodo = false;
@@ -24,15 +26,15 @@ public class Print {
 
         for (Todo todo : todoList) {
             String todoDateStr = sdf.format(todo.getDeadline().getTime());
-            if (todayStr.equals(todoDateStr)) {
+            if (todayStr.equals(todoDateStr) && !todo.isComplete()) {
                 hasTodayTodo = true;
-                System.out.printf("- %s, %s, %s, %s, %s, %s\n",
-                        todo.getDeadlineDate(),
-                        todo.getPriority().getGrade(),
-                        todo.getTitle(),
-                        todo.getStorage(),
-                        todo.getRepeat().stringRepeat(),
-                        todo.getTagStringBuilder().toString());
+                System.out.printf("- %s | %s | %s | %s | %s | %s\n",
+                    printCalendarBold(todo.getDeadline()),
+                    todo.getPriority().getGrade(),
+                    printFittedString(Todo.MAX_LENGTH_TITLE, todo.getTitle()),
+                    printFittedString(Todo.MAX_LENGTH_STORAGE, todo.getStorage()),
+                    todo.getRepeat().stringRepeat(),
+                    todo.getTagStringBuilder().toString());
             }
         }
 
@@ -41,12 +43,66 @@ public class Print {
             System.out.println("없음");
         }
 
-        System.out.println("------------------------------------------------");
+        System.out.println(
+            "-----------------------------------------------------------------------------");
     }
 
 
-    public static void printTitleBig() {
+    public static void printHaveTodoList(TodoList todoList) {
+        System.out.println(
+            "----------------- [다른 할 일]-----------------------------------------------");
 
+        // 오늘 날짜를 기준으로 할 일 목록 필터링
+        boolean hasTodayTodo = false;
+        Calendar today = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String todayStr = sdf.format(today.getTime());
+
+        for (Todo todo : todoList) {
+            String todoDateStr = sdf.format(todo.getDeadline().getTime());
+            if (!todayStr.equals(todoDateStr) && !todo.isComplete()) {
+                hasTodayTodo = true;
+                System.out.printf("- %s | %s | %s | %s | %s | %s\n",
+                    printCalendarColor(todo.getDeadline()),
+                    todo.getPriority().getGrade(),
+                    printFittedString(Todo.MAX_LENGTH_TITLE, todo.getTitle()),
+                    printFittedString(Todo.MAX_LENGTH_STORAGE, todo.getStorage()),
+                    todo.getRepeat().stringRepeat(),
+                    todo.getTagStringBuilder().toString());
+            }
+        }
+
+        // 오늘 할 일이 없는 경우 "없음" 출력
+        if (!hasTodayTodo) {
+            System.out.println("없음");
+        }
+
+        System.out.println(
+            "-----------------------------------------------------------------------------");
+    }
+
+    public static String printCalendarColor(Calendar calendar) {
+        Calendar today = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String calendarStr = sdf.format(calendar.getTime());
+
+        if (calendar.after(today)) {
+            return Ansi.GREEN.getName() + calendarStr + Ansi.INIT.getName();
+        } else if (calendar.before(today)) {
+            return Ansi.RED.getName() + calendarStr + Ansi.INIT.getName();
+        } else {
+            return Ansi.BOLD.getName() + calendarStr + Ansi.INIT.getName();
+        }
+    }
+
+    public static String printCalendarBold(Calendar calendar) {
+        Calendar today = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String calendarStr = sdf.format(calendar.getTime());
+
+        return Ansi.BOLD.getName() + calendarStr + Ansi.INIT.getName();
     }
 
     public static void printTitle(String title) {
@@ -224,10 +280,6 @@ public class Print {
 
         }
         System.out.println("");
-    }
-
-    public static void printHaveTodoList(TodoList todoList) {
-
     }
 
     public static String printFittedString(int length, String str) {

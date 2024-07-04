@@ -15,7 +15,6 @@ import bitcamp.project2.vo.Term;
 import bitcamp.project2.vo.Todo;
 import java.util.Calendar;
 import java.util.LinkedList;
-
 public class App {
 
     static String mainTitle = "Todo List";
@@ -73,11 +72,11 @@ public class App {
         Calendar calendar4 = Calendar.getInstance();
         Calendar calendar5 = Calendar.getInstance();
 
-        calendar1.set(2024, 7, 4);
-        calendar2.set(2024, 7, 5);
-        calendar3.set(2024, 7, 10);
-        calendar4.set(2024, 7, 1);
-        calendar5.set(2024, 7, 3);
+        calendar1.set(2024, 6, 4);
+        calendar2.set(2024, 6, 5);
+        calendar3.set(2024, 6, 10);
+        calendar4.set(2024, 6, 1);
+        calendar5.set(2024, 6, 3);
 
         Calendar[] deadlines = {calendar1, calendar2, calendar3, calendar4, calendar5};
 
@@ -118,5 +117,7 @@ public class App {
         TodoCommand.todos.add(todo3);
         TodoCommand.todos.add(todo4);
         TodoCommand.todos.add(todo5);
+
+        TodoCommand.sort();
     }
 }
