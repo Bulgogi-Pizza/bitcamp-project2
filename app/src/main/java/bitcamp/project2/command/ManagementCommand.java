@@ -88,13 +88,13 @@ public class ManagementCommand {
 
     public static void changeSortMode() {
 
-        String[] manageTodoMenus = {"날짜 순", "우선순위 순"};
+        String[] manageTodoMenus = {"날짜 순", "우선순위 순", "이전"};
 
         while (true) {
             Print.printTitle("정렬 모드");
             Print.printMenus(manageTodoMenus);
 
-            int menuNo = PromptTodo.inputInt("정렬 모드 변경 [0 = 이전] >>");
+            int menuNo = PromptTodo.inputInt("정렬 모드 변경 >>");
 
             switch (menuNo) {
                 case 1:
